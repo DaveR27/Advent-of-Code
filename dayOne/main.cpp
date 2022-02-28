@@ -4,28 +4,63 @@
 
 #include <iostream>
 #include <fstream>
-#include "main.h"
+#include <vector>
+#include <queue>
+#include <numeric>
 
-void partOne(std::string puzzleInput) {
+void partOne(const std::vector<int> &puzzleInput) {
+    int count = 0;
+    int previousMeasurement = -1;
 
+    for (int currentNumber: puzzleInput) {
+        if (previousMeasurement != -1 && previousMeasurement < currentNumber) {
+            count++;
+        }
+        previousMeasurement = currentNumber;
+    }
+
+    std::cout << "The total is: " << count << std::endl;
 }
 
-void partTwo(std::string puzzleInput) {
+void partTwo(const std::vector<int> &puzzleInput) {
+    int count = 0;
+    int previousMeasurement = -1;
+    std::deque<int> frame;
 
-}
+    for (int number: puzzleInput) {
+        frame.push_back(number);
 
-void readFile(std::string puzzleInput) {
-    std::ifstream file ("puzzleInput.txt");
-    if (file.is_open()) {
-        while (file) {
-            file >> puzzleInput;
+        if (frame.size() == 3) {
+            int sum = std::accumulate(frame.begin(), frame.end(), 0);
+
+            if (previousMeasurement != -1 && previousMeasurement < sum) {
+                count++;
+            }
+            frame.pop_front();
+            previousMeasurement = sum;
         }
     }
+
+    std::cout << "The total is: " << count << std::endl;
+}
+
+std::vector<int> readFile() {
+    std::ifstream file("puzzleInput.txt");
+    std::vector<int> puzzleInput;
+    std::string line;
+
+    if (file.is_open()) {
+        std::cout << "it do be here" << std::endl;
+        while (getline(file, line)) {
+            puzzleInput.push_back(std::stoi(line));
+        }
+    }
+    return puzzleInput;
 }
 
 int main(int argc, char const *argv[]) {
     int mode = std::stoi(argv[1]);
-    std::string puzzleInput;
+    std::vector<int> puzzleInput = readFile();
 
     switch (mode) {
         case 1:
