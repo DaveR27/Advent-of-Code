@@ -50,7 +50,6 @@ std::vector<int> readFile() {
     std::string line;
 
     if (file.is_open()) {
-        std::cout << "it do be here" << std::endl;
         while (getline(file, line)) {
             puzzleInput.push_back(std::stoi(line));
         }

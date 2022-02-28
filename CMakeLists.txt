@@ -6,5 +6,5 @@ set(CMAKE_CXX_STANDARD 14)
 include_directories(dayOne)
 
 add_executable(Advent_of_Code_2021
-        dayOne/main.cpp
-        )
+#        dayOne/main.cpp
+        dayTwo/main.cpp)
