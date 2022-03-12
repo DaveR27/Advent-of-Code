@@ -8,6 +8,7 @@
 #include <fstream>
 #include <sstream>
 #include <list>
+#include <tuple>
 
 void partOne(const std::list<std::pair<std::string, int>>& puzzleInput) {
     std::pair<int, int> position (0,0);
@@ -15,9 +16,9 @@ void partOne(const std::list<std::pair<std::string, int>>& puzzleInput) {
     std::string down = "down";
     std::string forward = "forward";
 
-    for (const std::pair<std::string , int>& coOrds : puzzleInput) {
+    for (const std::pair<std::string, int>& coOrds : puzzleInput) {
 
-        if(coOrds.first == up) {
+        if (coOrds.first == up) {
             position.second = position.second - coOrds.second;
         }
         if (coOrds.first == down) {
@@ -27,12 +28,32 @@ void partOne(const std::list<std::pair<std::string, int>>& puzzleInput) {
             position.first = position.first + coOrds.second;
         }
     }
+
     int multiplied = position.first * position.second;
     std::cout << "The positions multiplied are: " << multiplied << std::endl;
 }
 
 void partTwo(const std::list<std::pair<std::string, int>>& puzzleInput) {
+    std::tuple<int, int, int> positions(0, 0, 0);
+    std::string up = "up";
+    std::string down = "down";
+    std::string forward = "forward";
 
+    for (const std::pair<std::string, int>& coOrds : puzzleInput) {
+        if (coOrds.first == up) {
+            std::get<2>(positions) = std::get<2>(positions) - coOrds.second;
+        }
+        if (coOrds.first == down) {
+            std::get<2>(positions) = std::get<2>(positions) + coOrds.second;
+        }
+        if (coOrds.first == forward) {
+            std::get<0>(positions) = std::get<0>(positions) + coOrds.second;
+            std::get<1>(positions) = std::get<1>(positions) + (coOrds.second * std::get<2>(positions));
+        }
+    }
+
+    int multiplied = std::get<0>(positions) * std::get<1>(positions);
+    std::cout << "The positions multiplied are: " << multiplied << std::endl;
 }
 
 std::string removeEscape(const std::string& commandString) {
