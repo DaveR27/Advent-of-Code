@@ -94,7 +94,7 @@ std::list<std::pair<std::string, int>> readFile() {
     return puzzleInput;
 }
 
-int main(int argc, char const *argv[]){
+int main(int argc, char const *argv[]) {
     int mode = std::stoi(argv[1]);
     std::list<std::pair<std::string, int>> puzzleInput = readFile();
 
