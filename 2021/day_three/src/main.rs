@@ -1,39 +1,39 @@
 use std::fs::File;
-use std::io::{self, BufRead};
-use std::path::Path;
-
-// The output is wrapped in a Result to allow matching on errors
-// Returns an Iterator to the Reader of the lines of the file.
-fn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>>
-where P: AsRef<Path>, {
-    let file = File::open(filename)?;
-    Ok(io::BufReader::new(file).lines())
-}
+use std::io::{BufRead, BufReader};
 
 fn to_u32(slice: &[i32]) -> u32 {
     slice.iter().fold((0,1),|(acc,mul),&bit|(acc+(mul*(1&bit as u32)),mul.wrapping_add(mul))).0
 }
 
 fn main() {
-    let mut zeros: [i32; 5] = [0, 0, 0, 0, 0];
-    let mut ones: [i32; 5] = [0, 0, 0, 0, 0];
+    let mut zeros: [i32; 12] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    let mut ones: [i32; 12] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
-    let mut max: [i32; 5] = [0, 0, 0, 0, 0];
-    let mut min: [i32; 5] = [0, 0, 0, 0, 0];
+    let mut max: [i32; 12] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    let mut min: [i32; 12] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
-    if let Ok(lines) = read_lines("puzzleInput.txt") {
-            for line in lines {
-                if let Ok(ip) = line {
-                    // Find if 1 or 0 occurs more at each bit position, knowing each number is only 5 bits
-                    for i in 0..5 {
-                        if ip.chars().map(|c| c.to_digit(10).unwrap()).sum::<u32>() == 0 {
-                            zeros[i] = zeros[i] + 1;
-                        } else {
-                            ones[i] = ones[i] + 1;
-                        }
-                    } 
-                }
-            }
+
+    let filename = "puzzleInput.txt";
+    // Open the file in read-only mode (ignoring errors).
+    let file = File::open(filename).unwrap();
+    let reader = BufReader::new(file);
+
+    // Read the file line by line using the lines() iterator from std::io::BufRead.
+    for (index, line) in reader.lines().enumerate() {
+        let line = line.unwrap(); // Ignore errors.
+        println!("{}", line);
+        // let loopnum = line.chars().map(|c| c.to_digit(10).unwrap()).sum::<u32>();
+        
+        // println!("{}", loopnum);
+        // println!("here");
+
+        // for i in 0..12 {
+        //     if loopnum == 0 {
+        //         zeros[i] = zeros[i] + 1;
+        //     } else {
+        //         ones[i] = ones[i] + 1;
+        //     }
+        // }
     }
 
     for i in 0..5 {
@@ -47,7 +47,7 @@ fn main() {
     let gamma = to_u32(&max);
     let epsilon = to_u32(&min);
     
-    println!("{}", gamma);
-    println!("{}", epsilon);
-    println!("{}", (gamma * epsilon).to_string());
+    // println!("{}", gamma);
+    // println!("{}", epsilon);
+    // println!("{}", (gamma * epsilon).to_string());
 }
