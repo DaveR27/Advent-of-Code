@@ -1,3 +1,3 @@
-# Advent of Code 2021
+# Advent of Code
 
-This repo contains my attempts at 2021's advent of code.
+This repo contains my attempts at the advent of code puzzles
